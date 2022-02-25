@@ -22,11 +22,11 @@ public class InteractListener implements Listener {
         this.gamerService = gamerService;
     }
 
+
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         //TODO: utworz zmienienna Player player i zastap nie wszystkie wywoalania
         // event.getPlayer() - ale ze w onInteract ({tu}) czy juz w fubkcji?
-
         if(event.getItem() == null)
             return;
         ItemMeta meta = event.getItem().getItemMeta();
@@ -45,8 +45,6 @@ public class InteractListener implements Listener {
                     }
                 }
             });
-
         }
     }
-
 }
