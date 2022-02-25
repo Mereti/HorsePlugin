@@ -10,6 +10,7 @@ import com.company.repository.ScoreRepository;
 import com.company.service.GamerService;
 import com.company.service.PlotService;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HorseLoginPlugin extends JavaPlugin {
@@ -44,9 +45,9 @@ public class HorseLoginPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new InteractListener(plotService,gamerService), this);
         getServer().getPluginManager().registerEvents(new BlockListener(gamerService), this);
-        //TODO: jak dodac gracza>!!!
-        getServer().getPluginManager().registerEvents(new PlayerJoinEvent(),this);
-       // getServer().getPluginManager().registerEvents(new PlayerQuitEvent(gamerService.removeGamer(Player);),this);
+        //TODO: zr listenery
+        //getServer().getPluginManager().registerEvents(new PlayerJoinEvent(gamerService.removeGamer()),this);
+      // getServer().getPluginManager().registerEvents(new PlayerQuitEvent(gamerService.removeGamer()),this);
         //Mysql.displayAllGamers();
     }
     @Override

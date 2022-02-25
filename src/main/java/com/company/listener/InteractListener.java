@@ -4,6 +4,7 @@ import com.company.Plot;
 import com.company.StaticConfig;
 import com.company.service.GamerService;
 import com.company.service.PlotService;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -22,26 +23,25 @@ public class InteractListener implements Listener {
         this.gamerService = gamerService;
     }
 
-
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         //TODO: utworz zmienienna Player player i zastap nie wszystkie wywoalania
-        // event.getPlayer() - ale ze w onInteract ({tu}) czy juz w fubkcji?
+        Player player = event.getPlayer();
         if(event.getItem() == null)
             return;
         ItemMeta meta = event.getItem().getItemMeta();
         if(meta != null && meta.getDisplayName().equals(StaticConfig.COMPASS_NAME)) {
-            gamerService.getGamer(event.getPlayer().getName()).ifPresent(gamer -> {
+            gamerService.getGamer(player.getName()).ifPresent(gamer -> {
                 Optional<Plot> plotOptional = plotService.getPlotOwnedByGamer(gamer);
                 if(plotOptional.isPresent()) {
-                    event.getPlayer().teleport(plotOptional.get().getMainPoint());
+                    player.teleport(plotOptional.get().getMainPoint());
                 } else {
                     Optional<Plot> givenPlot = plotService.givePlot(gamer);
                     if(givenPlot.isPresent()) {
-                        event.getPlayer().teleport(givenPlot.get().getMainPoint());
-                        event.getPlayer().sendMessage("Otrzymales dzialke");
+                        player.teleport(givenPlot.get().getMainPoint());
+                        player.sendMessage("Otrzymales dzialke");
                     } else {
-                        event.getPlayer().sendMessage("Nie ma wolnych dzialek skontaktuj sie z administratorem");
+                        player.sendMessage("Nie ma wolnych dzialek skontaktuj sie z administratorem");
                     }
                 }
             });
