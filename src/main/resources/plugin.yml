@@ -1,0 +1,3 @@
+name: LoginPlugin
+main: com.company.HorseLoginPlugin
+version: 1.0
