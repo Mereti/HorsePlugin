@@ -3,20 +3,18 @@ package com.company;
 import com.company.listener.BlockListener;
 import com.company.listener.InteractListener;
 import com.company.listener.JoinListener;
+import com.company.listener.QuitListener;
 import com.company.repository.AbstractRepository;
 import com.company.repository.GamerRepository;
 import com.company.repository.PlotRepository;
 import com.company.repository.ScoreRepository;
 import com.company.service.GamerService;
 import com.company.service.PlotService;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HorseLoginPlugin extends JavaPlugin {
 
-
-    //TODO: stworz zmienne dla wszystkich servicow i repository
+    //TODO: stworzyc zmiennie dla HorseRepository i HorseService
 
     GamerService gamerService;
     PlotService plotService;
@@ -29,25 +27,20 @@ public class HorseLoginPlugin extends JavaPlugin {
     public void onEnable() {
         getLogger().info("onEnable is called!");
 
-        //TODO: zainicjalizuj wszystkie zmienne servicow i repository
-        // np. gamerRepostory = new GamerRepository();
-        // gameService = new GameService(repository1, repository2);
-
+        //TODO: zainicjowac HorseRepository i HorseService
         gamerRepository = new GamerRepository();
         abstractRepository = new AbstractRepository();
         plotRepository = new PlotRepository();
         scoreRepository = new ScoreRepository();
-        gamerService = new GamerService();
-        plotService = new PlotService();
+        gamerService = new GamerService(scoreRepository, gamerRepository);
+        plotService = new PlotService(plotRepository);
 
-        //TODO: zarejestru BlockListener
-
-        getServer().getPluginManager().registerEvents(new JoinListener(), this);
+        getServer().getPluginManager().registerEvents(new JoinListener(gamerService), this);
         getServer().getPluginManager().registerEvents(new InteractListener(plotService,gamerService), this);
         getServer().getPluginManager().registerEvents(new BlockListener(gamerService), this);
-        //TODO: zr listenery
-        //getServer().getPluginManager().registerEvents(new PlayerJoinEvent(gamerService.removeGamer()),this);
-      // getServer().getPluginManager().registerEvents(new PlayerQuitEvent(gamerService.removeGamer()),this);
+         getServer().getPluginManager().registerEvents(new QuitListener(gamerService),this);
+
+         //TODO: zarejrestrowac HorseListener
         //Mysql.displayAllGamers();
     }
     @Override

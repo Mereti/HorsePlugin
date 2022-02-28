@@ -1,6 +1,7 @@
 package com.company.listener;
 
 import com.company.StaticConfig;
+import com.company.service.GamerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,6 +14,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class JoinListener implements Listener {
+
+    private GamerService gamerService;
+
+    public JoinListener(GamerService gamerService) {
+        this.gamerService = gamerService;
+    }
 
     private static Location spawn = Bukkit.getWorld("world").getSpawnLocation();
     private ItemStack item = new ItemStack(Material.HORSE_SPAWN_EGG, 1);
@@ -28,6 +35,8 @@ public class JoinListener implements Listener {
         player.setCanPickupItems(false);
         player.setItemOnCursor(item);
         player.getInventory().setItem(0, compass);
+
+        gamerService.loadGamer(player.getName());
     }
 
     private static ItemStack createCompass() {

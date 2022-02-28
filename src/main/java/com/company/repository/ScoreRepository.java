@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ScoreRepository extends AbstractRepository {
 
     public void updateGamerScore(Gamer gamer, int addedPoints){
-        String sqlSelectGamer = "UPDATE gamer SET points = " + addedPoints + "WHERE gamer_id=" + gamer.getGamerId();
+        String sqlSelectGamer = "UPDATE gamer SET points = points + " + addedPoints + " WHERE gamer_id = " + gamer.getGamerId();
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectGamer);
              ResultSet resultSet = ps.executeQuery()) {

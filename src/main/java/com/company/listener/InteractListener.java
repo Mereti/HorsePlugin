@@ -17,7 +17,6 @@ public class InteractListener implements Listener {
     private PlotService plotService;
     private GamerService gamerService;
 
-    //TODO: zrob konstruktor ktory ustawi plotService i gamerService;
     public InteractListener(PlotService plotService, GamerService gamerService) {
         this.plotService = plotService;
         this.gamerService = gamerService;
@@ -25,7 +24,6 @@ public class InteractListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        //TODO: utworz zmienienna Player player i zastap nie wszystkie wywoalania
         Player player = event.getPlayer();
         if(event.getItem() == null)
             return;
