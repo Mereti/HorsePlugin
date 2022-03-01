@@ -2,11 +2,13 @@ package com.company.service;
 
 import com.company.Gamer;
 import com.company.Horse;
+import com.company.HorseInterface;
 import com.company.repository.HorseRepository;
+import org.bukkit.entity.Entity;
 
 import java.util.List;
 
-public abstract class HorseService {
+public class HorseService {
 
     private HorseRepository horseRepository;
 
@@ -19,11 +21,15 @@ public abstract class HorseService {
     // nie ejstem epwny co powinna zwracac
     // com.company.Horse / org.bukkit.Entity / org.bukkit.Horse
     // pamietaj zeby zapisac go w bazie danych
-    public abstract void createHorse();
+    public  void createHorse(Horse horse) {
+        org.bukkit.entity.Horse horse1 = null;
 
+    }
     //TODO: stworzyc metode ktora zaladuje konie gracza
     // uruchomic ja przy PlayerJoinEvent
-    public abstract void loadHorses(Gamer gamer);
+     public  void loadHorses(Gamer gamer){
+
+    }
 
 
 

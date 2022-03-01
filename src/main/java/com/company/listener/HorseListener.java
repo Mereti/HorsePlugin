@@ -1,5 +1,7 @@
 package com.company.listener;
 
+import com.company.Horse;
+import com.company.HorseInterface;
 import com.company.StaticConfig;
 import com.company.repository.HorseRepository;
 import com.company.service.HorseService;
@@ -37,7 +39,7 @@ public class HorseListener implements Listener {
         if(itemMeta != null && itemMeta.getDisplayName().equals(StaticConfig.HORSE_EGG)){
 
             interactEvent.setCancelled(true);
-            meta.addItemFlags(ItemFlag);
+           // HorseInterface horseInterface = (HorseInterface) new Horse();
 
         }
 
