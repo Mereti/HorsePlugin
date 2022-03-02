@@ -1,12 +1,10 @@
 package com.company.listener;
 
-import com.company.Horse;
-import com.company.HorseInterface;
 import com.company.StaticConfig;
-import com.company.repository.HorseRepository;
+import com.company.model.Breed;
 import com.company.service.HorseService;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
+import org.bukkit.entity.Horse;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -35,11 +33,14 @@ public class HorseListener implements Listener {
         ItemMeta itemMeta = interactEvent.getItem().getItemMeta();
         ItemStack itemStack = new ItemStack(Material.HORSE_SPAWN_EGG);
         ItemMeta meta = itemStack.getItemMeta();
+        Breed breed;
+        Integer number = null;
 
         if(itemMeta != null && itemMeta.getDisplayName().equals(StaticConfig.HORSE_EGG)){
 
             interactEvent.setCancelled(true);
            // HorseInterface horseInterface = (HorseInterface) new Horse();
+            Horse horse = new com.company.Horse();
 
         }
 
