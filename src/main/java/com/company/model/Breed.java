@@ -5,12 +5,12 @@ public class Breed {
     private Integer breedId;
     private HorseBreed horseBreed;
     private double fast;
-    private Integer hungry;
-    private Integer thirst;
+    private double hungry;
+    private double thirst;
     private double appearance;
     private double value;
 
-    public Breed(Integer breedId, HorseBreed horseBreed, double fast, Integer hungry, Integer thirst, double appearance, double value) {
+    public Breed(Integer breedId, HorseBreed horseBreed, double fast, double hungry, double thirst, double appearance, double value) {
         this.breedId = breedId;
         this.horseBreed = horseBreed;
         this.fast = fast;
@@ -19,6 +19,8 @@ public class Breed {
         this.appearance = appearance;
         this.value = value;
     }
+
+
 
     public Integer getBreedId() {
         return breedId;
@@ -44,19 +46,19 @@ public class Breed {
         this.fast = fast;
     }
 
-    public Integer getHungry() {
+    public double getHungry() {
         return hungry;
     }
 
-    public void setHungry(Integer hungry) {
+    public void setHungry(double hungry) {
         this.hungry = hungry;
     }
 
-    public Integer getThirst() {
+    public double getThirst() {
         return thirst;
     }
 
-    public void setThirst(Integer thirst) {
+    public void setThirst(double thirst) {
         this.thirst = thirst;
     }
 
@@ -72,7 +74,7 @@ public class Breed {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 }

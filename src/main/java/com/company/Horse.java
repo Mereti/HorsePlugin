@@ -13,7 +13,7 @@ public class Horse{
     private Breed breed; // rasa konia
     private double fast; // szybkość konia
     private double hungry; // głód konia
-    private Integer thirst; // pragnienie konia
+    private double thirst; // pragnienie konia
     private double appearance;
     private double value;
 
@@ -24,7 +24,7 @@ public class Horse{
     }*/
 
     public Horse(Integer horseId, GamerStud gamerStud, String name,
-                 Breed breed, double fast, double hungry, Integer thirst,
+                 Breed breed, double fast, double hungry, double thirst,
                  double appearance, double value) {
         this.horseId = horseId;
         this.gamerStud = gamerStud;
@@ -85,11 +85,11 @@ public class Horse{
         this.hungry = hungry;
     }
 
-    public Integer getThirst() {
+    public double getThirst() {
         return thirst;
     }
 
-    public void setThirst(Integer thirst) {
+    public void setThirst(double thirst) {
         this.thirst = thirst;
     }
 

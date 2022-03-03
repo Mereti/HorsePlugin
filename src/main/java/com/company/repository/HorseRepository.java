@@ -2,6 +2,9 @@ package com.company.repository;
 
 import com.company.Gamer;
 import com.company.Horse;
+import com.company.model.Breed;
+import com.company.model.HorseBreed;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+
 import static com.company.repository.AbstractRepository.createConnection;
 
 public class HorseRepository /*implements HorseInterface*/ {
@@ -59,6 +64,38 @@ public class HorseRepository /*implements HorseInterface*/ {
             // handle the exception
             return horseNumber;
         }
+    }
+
+    public Optional<Breed> getBreedObject(Integer number){
+        String getBreed = "SELECT * FROM breed WHERE breed_id = " + number;
+        try (Connection conn = createConnection();
+             PreparedStatement ps = conn.prepareStatement(getBreed);
+             ResultSet rs = ps.executeQuery()) {
+            Breed breed = new Breed(0,null,0,0,0,0,0);
+
+            while (rs.next()) {
+                int id = rs.getInt("breed_id");
+                HorseBreed horseBreed = rs.getObject("horse_breed");
+                double fast = rs.getDouble("fast");
+                double hungry = rs.getDouble("hungry");
+                double thirst = rs.getDouble("thist");
+                double appearance = rs.getDouble("appearance");
+                double value = rs.getDouble("value");
+
+//TODO: sprawdzić czy to jest ok !?
+
+            breed.setBreedId(id);
+            breed.setHorseBreed(horseBreed);
+            breed.setFast(fast);
+            breed.setHungry(hungry);
+            breed.setThirst(thirst);
+            breed.setAppearance(appearance);
+            breed.setValue(value);
+            }
+            return Optional.of(breed);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } return Optional.empty();
     }
 
 }

@@ -2,11 +2,14 @@ package com.company.service;
 
 import com.company.Gamer;
 import com.company.Horse;
-import com.company.HorseInterface;
+import com.company.StaticConfig;
+import com.company.model.Breed;
+import com.company.model.GamerStud;
 import com.company.repository.HorseRepository;
-import org.bukkit.entity.Entity;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 public class HorseService {
 
@@ -21,9 +24,23 @@ public class HorseService {
     // nie ejstem epwny co powinna zwracac
     // com.company.Horse / org.bukkit.Entity / org.bukkit.Horse
     // pamietaj zeby zapisac go w bazie danych
-    public  void createHorse(Horse horse) {
-        org.bukkit.entity.Horse horse1 = null;
+    public  void createHorse(Horse horse, GamerStud gamer) {
+        Random generator = new Random();
+        // TODO: w bazie danych jest kilka breed,
+        //  chcemy aby byly rangomowo generowane i przypisywane do poczatkowego konia!
+        Integer generateBreedNumber = generator.nextInt(StaticConfig.HORSE_NUMBER);
 
+        Optional<Breed> randomBreedHorse =  horseRepository.getBreedObject(generateBreedNumber);
+        org.bukkit.entity.Horse horse1 = (org.bukkit.entity.Horse) new Horse(
+                horseRepository.getHorseNumber()+1,
+                gamer,
+                "name",
+                randomBreedHorse.get(),
+                randomBreedHorse.get().getFast(),
+                randomBreedHorse.get().getHungry(),
+                randomBreedHorse.get().getThirst(),
+                randomBreedHorse.get().getAppearance(),
+                randomBreedHorse.get().getValue());
     }
     //TODO: stworzyc metode ktora zaladuje konie gracza
     // uruchomic ja przy PlayerJoinEvent
