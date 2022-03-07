@@ -21,9 +21,10 @@ public class GamerService {
         this.gamers = new HashMap<>();
     }
 
-    public void loadGamer(String name) {
+    public Gamer loadGamer(String name) {
         Gamer gamer = gamerRepository.getGamerByNick(name).orElseThrow(() -> new RuntimeException("Gracz nie istnieje"));
         gamers.put(name, gamer);
+        return gamer;
     }
 
     public void removeGamer(String name) {

@@ -1,24 +1,28 @@
 package com.company.listener;
 
+import com.company.Gamer;
+import com.company.Horse;
 import com.company.StaticConfig;
 import com.company.model.Breed;
+import com.company.service.GamerService;
 import com.company.service.HorseService;
 import org.bukkit.Material;
-import org.bukkit.entity.Horse;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Optional;
+
 public class HorseListener implements Listener {
 
     private HorseService horseService;
+    private GamerService gamerService;
 
-    //TODO: strowrzyc konstruktor
-
-    public HorseListener(HorseService horseService) {
+    public HorseListener(HorseService horseService, GamerService gamerService) {
         this.horseService = horseService;
+        this.gamerService = gamerService;
     }
 
     //TODO: stworzyc EventHandler dla PlayerInteractEvent
@@ -39,8 +43,12 @@ public class HorseListener implements Listener {
         if(itemMeta != null && itemMeta.getDisplayName().equals(StaticConfig.HORSE_EGG)){
 
             interactEvent.setCancelled(true);
-           // HorseInterface horseInterface = (HorseInterface) new Horse();
-            Horse horse = new com.company.Horse();
+            Optional<Gamer> gamerOptional = gamerService.getGamer(interactEvent.getPlayer().getName());
+            if(gamerOptional.isPresent()) {
+                Gamer gamer = gamerOptional.get();
+                Horse horse = horseService.createHorse(gamer, interactEvent.getClickedBlock().getLocation());
+            }
+
 
         }
 

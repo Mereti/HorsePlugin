@@ -3,20 +3,18 @@ package com.company.repository;
 import com.company.Gamer;
 import com.company.Horse;
 import com.company.model.Breed;
+import com.company.model.GamerStud;
 import com.company.model.HorseBreed;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.company.repository.AbstractRepository.createConnection;
 
-public class HorseRepository /*implements HorseInterface*/ {
+public class HorseRepository{
 
     //TODO: repostiory dla koni, tak jak GamerRepositry
 
@@ -31,25 +29,52 @@ public class HorseRepository /*implements HorseInterface*/ {
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllGamerHorse);
              ResultSet rs = ps.executeQuery()) {
-            gamerHorses.addAll((Collection<? extends Horse>) rs.getObject("horse")); //(Horse) rs.getObject("horse")
+            GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), gamer, rs.getString("gamer_stud_name"));
+            //TODO zrobic cos z tym getem
+            Optional<Breed> breedOptional = getBreedObject(rs.getInt("breed"));
+            if(breedOptional.isPresent()) {
+                Breed breed = breedOptional.get();
+                Horse horse = new Horse(rs.getInt("id"), gamerStud, rs.getString("name"), breed, rs.getDouble("speed"), rs.getDouble("hungry"), rs.getDouble("thrist"), rs.getDouble("appearance"), rs.getDouble("value"));
+                gamerHorses.add(horse);
+            }
             return gamerHorses;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return null;//TODO: Zmienić na pustą liste
+        return Collections.emptyList();
     }
 
-    public void saveHorse(Horse horse) {
-        String saveHorse = "UPDATE horse " +
-                "INNER JOIN gamer_stud ON horse.gamer_stud = gamer_stud.gamer_stud " +
-                "INNER JOIN gamer ON gamer.gamer_id = gamer_stud.gamer_id " +
-                "SET horse.horse_id = " + horse.getHorseId() + " WHERE gamer.gamer_id = " + horse.getGamerStud().getGamerId();
+    public Horse saveHorse(Horse horse) {
+
+        String sql = null;
+
+
+        if(horse.getHorseId() == null ){
+            sql = "INSERT INTO horse (horse_id, gamer_stud, name, breed, fast, hungry, thirst, appearance, value) " +
+                    "VALUES (null," + horse.getGamerStud().getGamerStudId()+ "," + horse.getName() + ","
+                    + horse.getBreed().getBreedId() + "," + horse.getFast() + "," + horse.getHungry()
+                    + "," + horse.getThirst() + "," + horse.getAppearance() + "," + horse.getValue() +")";
+        } else {
+            sql = "UPDATE horse SET name = " + horse.getName() + ", fast = "+ horse.getFast()
+                    + ", hungry = " + horse.getHungry() + " ,thirst =" + horse.getThirst()
+                    + ", appearance = " + horse.getAppearance() + " ,value = " + horse.getValue() + " WHERE horse_id LIKE "+ horse.getHorseId();
+        }
+
         try (Connection conn = createConnection();
-             PreparedStatement ps = conn.prepareStatement(saveHorse);
+             PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    horse.setHorseId(generatedKeys.getInt(1));
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             // handle the exception
         }
+        return horse;
     }
 
     public Integer getHorseNumber() {
@@ -71,28 +96,18 @@ public class HorseRepository /*implements HorseInterface*/ {
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(getBreed);
              ResultSet rs = ps.executeQuery()) {
-            Breed breed = new Breed(0,null,0,0,0,0,0);
 
             while (rs.next()) {
                 int id = rs.getInt("breed_id");
-                HorseBreed horseBreed = rs.getObject("horse_breed");
+                HorseBreed horseBreed = HorseBreed.getById(rs.getInt("horse_breed")).get();
                 double fast = rs.getDouble("fast");
                 double hungry = rs.getDouble("hungry");
                 double thirst = rs.getDouble("thist");
                 double appearance = rs.getDouble("appearance");
                 double value = rs.getDouble("value");
-
-//TODO: sprawdzić czy to jest ok !?
-
-            breed.setBreedId(id);
-            breed.setHorseBreed(horseBreed);
-            breed.setFast(fast);
-            breed.setHungry(hungry);
-            breed.setThirst(thirst);
-            breed.setAppearance(appearance);
-            breed.setValue(value);
+                Breed breed = new Breed(id,horseBreed,fast,hungry,thirst,appearance,value);
+                return Optional.of(breed);
             }
-            return Optional.of(breed);
         } catch (SQLException e) {
             e.printStackTrace();
         } return Optional.empty();

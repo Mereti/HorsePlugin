@@ -1,10 +1,8 @@
 package com.company.listener;
 
 import com.company.Gamer;
-import com.company.Plot;
 import com.company.service.GamerService;
 import com.company.service.PlotService;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -18,57 +16,60 @@ public class BlockListener implements Listener {
 
     private GamerService gamerService;
     private PlotService plotService;
-    private Plot plot;
 
-    public BlockListener(GamerService gamerService) {
+    public BlockListener(GamerService gamerService, PlotService plotService) {
         this.gamerService = gamerService;
+        this.plotService = plotService;
     }
 
     @EventHandler
     public void onBlockPlayer(BlockPlaceEvent event) {
         Optional<Gamer> gamerOptional = gamerService.getGamer(event.getPlayer().getName());
-        gamerOptional.ifPresent(gamer -> gamerService.addPoints(gamer, 1));
-
-        if(plotService.getPlotByLocation(event.getBlock().getLocation()) != null ){
-            if (plotService.getPlotOwnedByGamer(gamerOptional.get()) != plotService.getPlotByLocation(event.getBlock().getLocation())
-            ) {
-                event.setCancelled(true);
+        event.setCancelled(true);
+        if(gamerOptional.isPresent()) {
+            Gamer gamer = gamerOptional.get();
+            gamerService.addPoints(gamer, 1);
+            if(plotService.getPlotByLocation(event.getBlock().getLocation()).isPresent()){
+                if (plotService.getPlotByLocation(event.getBlock().getLocation()).get().getGamerId() == gamer.getGamerId()) {
+                    event.setCancelled(false);
+                }
             }
-        } else throw new RuntimeException("Brak działki !!!");
-        //TODO: sprawdzic czy gracz buduje na swojej dzialce, jesli nie
-        // uzyc event.setCancelled(true);
-        // event.getBlock().getLocation
-        // plotService.getPlotByLocation
-        // jesli optional pusty to nie ma dzialki
-        // jesli isPresent == true to sprawdzic czy dzialka nalezy do gracz
+        }
     }
 
-
-    //TODO: zrobic jak wyzej ale dla BlockBreakEvent
     @EventHandler
     public void onBlockBreakPlayer(BlockBreakEvent event){
         Optional<Gamer> gamerOptional = gamerService.getGamer(event.getPlayer().getName());
-        gamerOptional.ifPresent(gamer -> gamerService.addPoints(gamer, 1));
-
-        if(plotService.getPlotByLocation(event.getBlock().getLocation()) != null ){
-            if (plotService.getPlotOwnedByGamer(gamerOptional.get()) != plotService.getPlotByLocation(event.getBlock().getLocation())
-            ) {
-                event.setDropItems(false);
-                event.setCancelled(true);
+        event.setCancelled(true);
+        if(gamerOptional.isPresent()) {
+            Gamer gamer = gamerOptional.get();
+            if(plotService.getPlotByLocation(event.getBlock().getLocation()).isPresent()){
+                if (plotService.getPlotByLocation(event.getBlock().getLocation()).get().getGamerId() == gamer.getGamerId()) {
+                    event.setCancelled(false);
+                }
             }
-        } else throw new RuntimeException("Brak działki !!!");
+        }
     }
-
-    //TODO: zrobic jak wyzej ale dla PlayerInteractEvent
-    // zrobic ifa zeby nie blokowac na swiecie world
-    // event.getPlayer().getLocation().getWorld().getName().equals("world")
 
     @EventHandler
     public void onInteractWorld(PlayerInteractEvent interactEvent){
         if(interactEvent.getPlayer().getLocation().getWorld().getName().equals("world")){
-            if(interactEvent.getAction() == Action.RIGHT_CLICK_BLOCK && interactEvent.getClickedBlock().getType() == Material.OAK_DOOR){
+            if(interactEvent.getAction() == Action.RIGHT_CLICK_BLOCK && interactEvent.getClickedBlock().getType().name().endsWith("_DOOR")){
                 interactEvent.setCancelled(false);
-            } else interactEvent.setCancelled(true);
+            } else {
+                interactEvent.setCancelled(true);
+            }
+        } else {
+            Optional<Gamer> gamerOptional = gamerService.getGamer(interactEvent.getPlayer().getName());
+            interactEvent.setCancelled(true);
+            if(gamerOptional.isPresent()) {
+                Gamer gamer = gamerOptional.get();
+                if(plotService.getPlotByLocation(interactEvent.getClickedBlock().getLocation()).isPresent()){
+                    if (plotService.getPlotByLocation(interactEvent.getClickedBlock().getLocation()).get().getGamerId() == gamer.getGamerId()) {
+                        interactEvent.setCancelled(false);
+                    }
+                }
+            }
         }
     }
 }

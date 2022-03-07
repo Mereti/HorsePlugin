@@ -14,10 +14,6 @@ public class Plot {
         this.mainPoint = mainPoint;
     }
 
-    public Plot(){
-
-    }
-
     public boolean hasOwner() {
         return gamerId != 0;
     }
@@ -41,4 +37,5 @@ public class Plot {
     public void setMainPoint(Location mainPoint) {
         this.mainPoint = mainPoint;
     }
+
 }
