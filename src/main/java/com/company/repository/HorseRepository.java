@@ -5,7 +5,6 @@ import com.company.Horse;
 import com.company.model.Breed;
 import com.company.model.GamerStud;
 import com.company.model.HorseBreed;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

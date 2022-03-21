@@ -1,9 +1,6 @@
 package com.company;
 
-import com.company.listener.BlockListener;
-import com.company.listener.InteractListener;
-import com.company.listener.JoinListener;
-import com.company.listener.QuitListener;
+import com.company.listener.*;
 import com.company.repository.*;
 import com.company.service.GamerService;
 import com.company.service.HorseService;
@@ -39,7 +36,7 @@ public class HorseLoginPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InteractListener(plotService,gamerService), this);
         getServer().getPluginManager().registerEvents(new BlockListener(gamerService, plotService), this);
          getServer().getPluginManager().registerEvents(new QuitListener(gamerService),this);
-         getServer().getPluginManager().registerEvent(new );
+         getServer().getPluginManager().registerEvents(new HorseListener(horseService,gamerService), this);
 
          //TODO: zarejrestrowac HorseListener
         //Mysql.displayAllGamers();

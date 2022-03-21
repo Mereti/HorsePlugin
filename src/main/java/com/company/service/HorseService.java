@@ -38,7 +38,7 @@ public class HorseService {
         Horse horse = new Horse(
                 null,
                 stud,
-                "name",
+                "horse",
                 randomBreedHorse.get(),
                 randomBreedHorse.get().getFast(),
                 randomBreedHorse.get().getHungry(),
@@ -49,7 +49,7 @@ public class HorseService {
         horse = horseRepository.saveHorse(horse);
 
         org.bukkit.entity.Horse horseBukkit = (org.bukkit.entity.Horse) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.HORSE);
-        //TODO: ustawic parametry koniac
+        //TODO: ustawic parametry konia
         horseBukkit.setJumpStrength(2);
 
         horseBukkit.getUniqueId();
