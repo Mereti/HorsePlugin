@@ -4,10 +4,10 @@ import com.company.Gamer;
 
 public class GamerStud {
     private  Integer gamerStudId;
-    private Gamer gamerId;
+    private Integer gamerId;
     private String gamerStudName;
 
-    public GamerStud(Integer gamerStudId, Gamer gamerId, String gamerStudName) {
+    public GamerStud(Integer gamerStudId, Integer gamerId, String gamerStudName) {
         this.gamerStudId = gamerStudId;
         this.gamerId = gamerId;
         this.gamerStudName = gamerStudName;
@@ -21,11 +21,11 @@ public class GamerStud {
         this.gamerStudId = gamerStudId;
     }
 
-    public Gamer getGamerId() {
+    public Integer getGamerId() {
         return gamerId;
     }
 
-    public void setGamerId(Gamer gamerId) {
+    public void setGamerId(Integer gamerId) {
         this.gamerId = gamerId;
     }
 

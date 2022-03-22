@@ -5,6 +5,7 @@ import com.company.Horse;
 import com.company.StaticConfig;
 import com.company.model.Breed;
 import com.company.model.GamerStud;
+import com.company.repository.GamerStudRepository;
 import com.company.repository.HorseRepository;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -14,6 +15,7 @@ import java.util.*;
 public class HorseService {
 
     private HorseRepository horseRepository;
+    private GamerStudRepository gamerStudRepository;
 
     private List<Horse> horses;
 
@@ -29,7 +31,13 @@ public class HorseService {
         //  chcemy aby byly rangomowo generowane i przypisywane do poczatkowego konia!
         Integer generateBreedNumber = generator.nextInt(StaticConfig.HORSE_NUMBER);
         Optional<Breed> randomBreedHorse =  horseRepository.getBreedObject(generateBreedNumber);
-        GamerStud stud = null;
+        Optional <GamerStud> stud = null;
+        if(gamerStudRepository.getStudByGamer(gamer).isPresent()){
+            stud = gamerStudRepository.getStudByGamer(gamer);
+        }else{
+            gamerStudRepository.saveGamerStud(new GamerStud(null,gamer.getGamerId(),"Stud name"));
+            stud = gamerStudRepository.getStudByGamer(gamer);
+        }
         //TODO: utowrzyc gamer stud
         // bedzie trzeba stworzyc GamerStudRepository do wczytywania i zapisywania do bazy danych
         // analogiczne do HorseRepository
@@ -37,7 +45,7 @@ public class HorseService {
         // a pozniej uzyc ich tutaj m.in.
         Horse horse = new Horse(
                 null,
-                stud,
+                stud.get(),
                 "horse",
                 randomBreedHorse.get(),
                 randomBreedHorse.get().getFast(),
@@ -47,9 +55,8 @@ public class HorseService {
                 randomBreedHorse.get().getValue());
 
         horse = horseRepository.saveHorse(horse);
-
         org.bukkit.entity.Horse horseBukkit = (org.bukkit.entity.Horse) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.HORSE);
-        //TODO: ustawic parametry konia
+        //TODO: ustawic parametry konia??????  jak to polaczyc !?
         horseBukkit.setJumpStrength(2);
 
         horseBukkit.getUniqueId();

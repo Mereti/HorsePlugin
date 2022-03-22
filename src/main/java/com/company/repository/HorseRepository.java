@@ -28,7 +28,7 @@ public class HorseRepository{
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllGamerHorse);
              ResultSet rs = ps.executeQuery()) {
-            GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), gamer, rs.getString("gamer_stud_name"));
+            GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), gamer.getGamerId(), rs.getString("gamer_stud_name"));
             //TODO zrobic cos z tym getem
             Optional<Breed> breedOptional = getBreedObject(rs.getInt("breed"));
             if(breedOptional.isPresent()) {
