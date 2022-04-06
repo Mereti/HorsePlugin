@@ -4,6 +4,8 @@ import com.company.Plot;
 import com.company.StaticConfig;
 import com.company.service.GamerService;
 import com.company.service.PlotService;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,11 +33,11 @@ public class InteractListener implements Listener {
         if(meta != null && meta.getDisplayName().equals(StaticConfig.COMPASS_NAME)) {
             gamerService.getGamer(player.getName()).ifPresent(gamer -> {
                 Optional<Plot> plotOptional = plotService.getPlotOwnedByGamer(gamer);
-                if(plotOptional.isPresent()) {
+                if (plotOptional.isPresent()) {
                     player.teleport(plotOptional.get().getMainPoint());
                 } else {
                     Optional<Plot> givenPlot = plotService.givePlot(gamer);
-                    if(givenPlot.isPresent()) {
+                    if (givenPlot.isPresent()) {
                         player.teleport(givenPlot.get().getMainPoint());
                         player.sendMessage("Otrzymales dzialke");
                     } else {

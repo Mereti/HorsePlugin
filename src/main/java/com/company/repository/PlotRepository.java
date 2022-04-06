@@ -34,7 +34,6 @@ public class PlotRepository extends AbstractRepository {
             return plots;
         } catch (SQLException e) {
             e.printStackTrace();
-            // handle the exception
         }
 
         return Collections.emptyList();
