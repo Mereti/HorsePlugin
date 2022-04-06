@@ -5,6 +5,7 @@ import com.company.Horse;
 import com.company.model.Breed;
 import com.company.model.GamerStud;
 import com.company.model.HorseBreed;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,12 +28,13 @@ public class HorseRepository{
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllGamerHorse);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), gamer.getGamerId(), rs.getString("gamer_stud_name"));
+                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), gamer.getGamerId(), rs.getString("name"));
                 //TODO zrobic cos z tym getem
                 Optional<Breed> breedOptional = getBreedObject(rs.getInt("breed"));
+
                 if(breedOptional.isPresent()) {
                     Breed breed = breedOptional.get();
-                    Horse horse = new Horse(rs.getInt("id"), gamerStud, rs.getString("name"), breed, rs.getDouble("speed"), rs.getDouble("hungry"), rs.getDouble("thrist"), rs.getDouble("appearance"), rs.getDouble("value"));
+                    Horse horse = new Horse(rs.getInt("id"),rs.getString("bukkit_horse_id"), gamerStud, rs.getString("name"), breed, rs.getDouble("speed"), rs.getDouble("hungry"), rs.getDouble("thrist"), rs.getDouble("appearance"), rs.getDouble("value"));
                     gamerHorses.add(horse);
                 }
             }
@@ -49,12 +51,12 @@ public class HorseRepository{
 
 
         if(horse.getHorseId() == null ){
-            sql = "INSERT INTO horse (horse_id, gamer_stud, name, breed, fast, hungry, thirst, appearance, value) " +
-                    "VALUES (null," + horse.getGamerStud().getGamerStudId()+ "," + horse.getName() + ","
+            sql = "INSERT INTO horse (horse_id, bukkit_horse_id, gamer_stud, name, breed, fast, hungry, thirst, appearance, value) " +
+                    "VALUES (null," + horse.getBukkitHorseId() + horse.getGamerStud().getGamerStudId()+ "," + horse.getName() + ","
                     + horse.getBreed().getBreedId() + "," + horse.getFast() + "," + horse.getHungry()
                     + "," + horse.getThirst() + "," + horse.getAppearance() + "," + horse.getValue() +")";
         } else {
-            sql = "UPDATE horse SET name = " + horse.getName() + ", fast = "+ horse.getFast()
+            sql = "UPDATE horse SET bukkit_horse_id = " + horse.getBukkitHorseId() + ", name = " + horse.getName() + ", fast = "+ horse.getFast()
                     + ", hungry = " + horse.getHungry() + " ,thirst =" + horse.getThirst()
                     + ", appearance = " + horse.getAppearance() + " ,value = " + horse.getValue() + " WHERE horse_id = "+ horse.getHorseId();
         }

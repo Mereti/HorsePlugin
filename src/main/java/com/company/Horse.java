@@ -2,12 +2,14 @@ package com.company;
 
 import com.company.model.Breed;
 import com.company.model.GamerStud;
+import org.jetbrains.annotations.Nullable;
 
-public class Horse{
+public class Horse {
 
     //TODO: stworzyc konstruktor, metody get i set, rozwiaza problem z breed i gamerStud
 
     private Integer horseId;
+    private String bukkitHorseId;
     private GamerStud gamerStud;
     private String name; // imie konia
     private Breed breed; // rasa konia
@@ -17,16 +19,11 @@ public class Horse{
     private double appearance;
     private double value;
 
-    /*{
-        org.bukkit.entity.Horse horse = null;
-        horse.setJumpStrength();
-        horse.setJumpStrength();
-    }*/
-
-    public Horse(Integer horseId, GamerStud gamerStud, String name,
+    public Horse(Integer horseId, String bukkitHorseId, GamerStud gamerStud, String name,
                  Breed breed, double fast, double hungry, double thirst,
                  double appearance, double value) {
         this.horseId = horseId;
+        this.bukkitHorseId = bukkitHorseId;
         this.gamerStud = gamerStud;
         this.name = name;
         this.breed = breed;
@@ -43,6 +40,14 @@ public class Horse{
 
     public void setHorseId(Integer horseId) {
         this.horseId = horseId;
+    }
+
+    public String getBukkitHorseId() {
+        return bukkitHorseId;
+    }
+
+    public void setBukkitHorseId(String bukkitHorseId) {
+        this.bukkitHorseId = bukkitHorseId;
     }
 
     public GamerStud getGamerStud() {
@@ -108,4 +113,6 @@ public class Horse{
     public void setValue(double value) {
         this.value = value;
     }
+
+
 }

@@ -25,7 +25,7 @@ public class GamerStudRepository {
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllStuds);
              ResultSet rs = ps.executeQuery()) {
             while(rs.next()) {
-                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), rs.getInt("gamer_id"), rs.getString("gamer_stud_name"));
+                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), rs.getInt("gamer_id"), rs.getString("name"));
                 studList.add(gamerStud.getGamerStudId(),gamerStud);
             }
             return studList;
@@ -54,10 +54,10 @@ public class GamerStudRepository {
     public GamerStud saveGamerStud(GamerStud gamerStud){
         String sqlCreateSud = null;
         if(gamerStud.getGamerStudId() == null){
-            sqlCreateSud = "INSERT INTO gamer_stud (gamer_stud_id, gamer_id, gamer_stud_name) VALUES (null,"+ gamerStud.getGamerId() + ", "+ gamerStud.getGamerStudName() +")";
+            sqlCreateSud = "INSERT INTO gamer_stud (gamer_stud_id, gamer_id, name) VALUES (null,"+ gamerStud.getGamerId() + ", "+ gamerStud.getGamerStudName() +")";
 
         }else{
-            sqlCreateSud = "UPDATE gamer_stud SET gamer_stud_name = " + gamerStud.getGamerStudName();
+            sqlCreateSud = "UPDATE gamer_stud SET name = " + gamerStud.getGamerStudName();
         }
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlCreateSud);

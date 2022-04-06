@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.commands.GamerCommands;
 import com.company.listener.*;
 import com.company.repository.*;
 import com.company.service.GamerService;
@@ -18,6 +19,8 @@ public class HorseLoginPlugin extends JavaPlugin {
     ScoreRepository scoreRepository;
     HorseRepository horseRepository;
 
+    GamerCommands gamerCommands;
+
 
     @Override
     public void onEnable() {
@@ -31,6 +34,11 @@ public class HorseLoginPlugin extends JavaPlugin {
         gamerService = new GamerService(scoreRepository, gamerRepository);
         plotService = new PlotService(plotRepository);
         horseService = new HorseService(horseRepository);
+
+        GamerCommands commands = new GamerCommands();
+
+        getCommand("tplobby").setExecutor(commands);
+        getCommand("horsename").setExecutor(commands);
 
         getServer().getPluginManager().registerEvents(new JoinListener(gamerService, horseService), this);
         getServer().getPluginManager().registerEvents(new InteractListener(plotService,gamerService), this);

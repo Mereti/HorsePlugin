@@ -47,15 +47,11 @@ public class HorseListener implements Listener {
         if(itemMeta != null && itemMeta.getDisplayName().equals(StaticConfig.HORSE_EGG)){
 
             interactEvent.setCancelled(true);
-            Optional<Gamer> gamerOptional = gamerService.getGamer(interactEvent.getPlayer().getName());
+           /* Optional<Gamer> gamerOptional = gamerService.getGamer(interactEvent.getPlayer().getName());
             if(gamerOptional.isPresent()) {
-                Gamer gamer = gamerOptional.get();
-                Horse horse = horseService.createHorse(gamer, interactEvent.getClickedBlock().getLocation());
-            }
-
-
+                Gamer gamer = gamerOptional.get();*/
+              //  Horse horse = horseService.createHorse(gamer, interactEvent.getClickedBlock().getLocation());
+            //}
         }
-
     }
-
 }
