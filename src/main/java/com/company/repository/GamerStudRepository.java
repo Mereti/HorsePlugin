@@ -24,8 +24,10 @@ public class GamerStudRepository {
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllStuds);
              ResultSet rs = ps.executeQuery()) {
-             GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), rs.getInt("gamer_id"), rs.getString("gamer_stud_name"));
-             studList.add(gamerStud.getGamerStudId(),gamerStud);
+            while(rs.next()) {
+                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), rs.getInt("gamer_id"), rs.getString("gamer_stud_name"));
+                studList.add(gamerStud.getGamerStudId(),gamerStud);
+            }
             return studList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -38,8 +40,11 @@ public class GamerStudRepository {
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectStud);
              ResultSet rs = ps.executeQuery()) {
-            GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"),rs.getInt("gamer_id"), rs.getString("nickname"));
-            return Optional.of(gamerStud);
+            Optional<GamerStud> gamerStudOptional = Optional.empty();
+            if(rs.next()) {
+             gamerStudOptional = Optional.of(new GamerStud(rs.getInt("gamer_stud_id"),rs.getInt("gamer_id"), rs.getString("nickname")));
+            }
+            return gamerStudOptional;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

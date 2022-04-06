@@ -53,6 +53,8 @@ public class BlockListener implements Listener {
 
     @EventHandler
     public void onInteractWorld(PlayerInteractEvent interactEvent){
+        if(interactEvent.getClickedBlock() == null)
+            return;
         if(interactEvent.getPlayer().getLocation().getWorld().getName().equals("world")){
             if(interactEvent.getAction() == Action.RIGHT_CLICK_BLOCK && interactEvent.getClickedBlock().getType().name().endsWith("_DOOR")){
                 interactEvent.setCancelled(false);

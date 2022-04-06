@@ -34,6 +34,10 @@ public class HorseListener implements Listener {
 
     @EventHandler
     private void onPlayerInteractEvent(PlayerInteractEvent interactEvent){
+        if(interactEvent.getItem() == null)
+            return;
+        if(interactEvent.getItem().getItemMeta() == null)
+            return;
         ItemMeta itemMeta = interactEvent.getItem().getItemMeta();
         ItemStack itemStack = new ItemStack(Material.HORSE_SPAWN_EGG);
         ItemMeta meta = itemStack.getItemMeta();

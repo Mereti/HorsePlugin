@@ -12,12 +12,14 @@ import java.util.Optional;
 public class GamerRepository extends AbstractRepository {
 
     public Optional<Gamer> getGamerByNick(String nickname) {
-        String sqlSelectAllPlots = "SELECT * FROM gamer WHERE nickname LIKE " + nickname;
+        String sqlSelectAllPlots = "SELECT * FROM gamer WHERE nickname LIKE \"" + nickname + "\"";
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllPlots);
              ResultSet rs = ps.executeQuery()) {
-            Gamer gamer = new Gamer(rs.getInt("gamer_id"), rs.getString("nickname"));
-            return Optional.of(gamer);
+            Optional<Gamer> gamerOptional = Optional.empty();
+            if(rs.next())
+             gamerOptional = Optional.of(new Gamer(rs.getInt("gamer_id"), rs.getString("nickname")));
+            return gamerOptional;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

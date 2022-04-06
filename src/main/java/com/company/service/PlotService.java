@@ -45,6 +45,7 @@ public class PlotService {
         if(emptyPlotOptional.isPresent()) {
             Plot plot = emptyPlotOptional.get();
             plot.setGamerId(gamer.getGamerId());
+            plotRepository.updateOwner(plot.getId(), gamer.getGamerId());
             return Optional.of(plot);
         } else return Optional.empty();
     }

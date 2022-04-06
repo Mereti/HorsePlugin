@@ -49,6 +49,7 @@ public class JoinListener implements Listener {
         ItemStack compass = new ItemStack(Material.COMPASS, 1);
         ItemMeta meta = compass.getItemMeta();
         meta.setDisplayName(StaticConfig.COMPASS_NAME);
+        compass.setItemMeta(meta);
         return compass;
     }
 

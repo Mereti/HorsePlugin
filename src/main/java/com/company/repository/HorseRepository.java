@@ -15,26 +15,26 @@ import static com.company.repository.AbstractRepository.createConnection;
 
 public class HorseRepository{
 
-    //TODO: repostiory dla koni, tak jak GamerRepositry
-
     public List<Horse> getPlayerHorses(Gamer gamer) {
 
         String sqlSelectAllGamerHorse = "SELECT * FROM horse " +
-                "INNER JOIN gamer_stud ON horse.gamer_stud = gamer_stud.gamer_stud" +
-                "INNER JOIN gamer ON gamer_stud.gamer_id = gamer.gamer_id" +
-                "WHERE gamer.gamer_id LIKE  " + gamer.getGamerId();
+                "INNER JOIN gamer_stud ON horse.gamer_stud_id = gamer_stud.gamer_stud_id " +
+                "INNER JOIN gamer ON gamer_stud.gamer_id = gamer.gamer_id " +
+                "WHERE gamer.gamer_id = " + gamer.getGamerId();
         List<Horse> gamerHorses = new ArrayList<>();
 
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllGamerHorse);
              ResultSet rs = ps.executeQuery()) {
-            GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), gamer.getGamerId(), rs.getString("gamer_stud_name"));
-            //TODO zrobic cos z tym getem
-            Optional<Breed> breedOptional = getBreedObject(rs.getInt("breed"));
-            if(breedOptional.isPresent()) {
-                Breed breed = breedOptional.get();
-                Horse horse = new Horse(rs.getInt("id"), gamerStud, rs.getString("name"), breed, rs.getDouble("speed"), rs.getDouble("hungry"), rs.getDouble("thrist"), rs.getDouble("appearance"), rs.getDouble("value"));
-                gamerHorses.add(horse);
+            while (rs.next()) {
+                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), gamer.getGamerId(), rs.getString("gamer_stud_name"));
+                //TODO zrobic cos z tym getem
+                Optional<Breed> breedOptional = getBreedObject(rs.getInt("breed"));
+                if(breedOptional.isPresent()) {
+                    Breed breed = breedOptional.get();
+                    Horse horse = new Horse(rs.getInt("id"), gamerStud, rs.getString("name"), breed, rs.getDouble("speed"), rs.getDouble("hungry"), rs.getDouble("thrist"), rs.getDouble("appearance"), rs.getDouble("value"));
+                    gamerHorses.add(horse);
+                }
             }
             return gamerHorses;
         } catch (SQLException throwables) {
@@ -56,7 +56,7 @@ public class HorseRepository{
         } else {
             sql = "UPDATE horse SET name = " + horse.getName() + ", fast = "+ horse.getFast()
                     + ", hungry = " + horse.getHungry() + " ,thirst =" + horse.getThirst()
-                    + ", appearance = " + horse.getAppearance() + " ,value = " + horse.getValue() + " WHERE horse_id LIKE "+ horse.getHorseId();
+                    + ", appearance = " + horse.getAppearance() + " ,value = " + horse.getValue() + " WHERE horse_id = "+ horse.getHorseId();
         }
 
         try (Connection conn = createConnection();
@@ -74,20 +74,6 @@ public class HorseRepository{
             // handle the exception
         }
         return horse;
-    }
-
-    public Integer getHorseNumber() {
-        Integer horseNumber = null;
-        String getHorseNumber = "SELECT horse_id FROM horse ORDER BY horse_id DESC LIMIT 1";
-        try (Connection conn = createConnection();
-             PreparedStatement ps = conn.prepareStatement(getHorseNumber);
-             ResultSet rs = ps.executeQuery()) {
-            horseNumber=rs.getInt("horse_id");
-            return horseNumber;
-        } catch (SQLException e) {
-            // handle the exception
-            return horseNumber;
-        }
     }
 
     public Optional<Breed> getBreedObject(Integer number){

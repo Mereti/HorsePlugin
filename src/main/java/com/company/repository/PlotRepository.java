@@ -12,7 +12,7 @@ import java.util.List;
 public class PlotRepository extends AbstractRepository {
 
     public static List<Plot> loadAllPlots(){
-        String sqlSelectAllPlots = "SELECT * FROM plots";
+        String sqlSelectAllPlots = "SELECT * FROM plot";
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllPlots);
              ResultSet rs = ps.executeQuery()) {
@@ -20,7 +20,7 @@ public class PlotRepository extends AbstractRepository {
             List<Plot> plots = new ArrayList<>();
 
             while (rs.next()) {
-                int id = rs.getInt("id");
+                int id = rs.getInt("plot_id");
                 int gamer_id = rs.getInt("gamer_id");
                 int x = rs.getInt("x");
                 int y = rs.getInt("y");
@@ -33,6 +33,7 @@ public class PlotRepository extends AbstractRepository {
 
             return plots;
         } catch (SQLException e) {
+            e.printStackTrace();
             // handle the exception
         }
 
@@ -40,11 +41,13 @@ public class PlotRepository extends AbstractRepository {
     }
 
     public void updateOwner(int plotId, int gamerId) {
-        String updateOwner = "UPDATE plots SET gamer_id =" + gamerId + " WHERE id = " + plotId;
+        String updateOwner = "UPDATE plot SET gamer_id =" + gamerId + " WHERE plot_id = " + plotId;
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(updateOwner);
-             ResultSet rs = ps.executeQuery()) {
+             ) {
+            ps.execute();
         } catch (SQLException e) {
+            e.printStackTrace();
             // handle the exception
         }
     }
