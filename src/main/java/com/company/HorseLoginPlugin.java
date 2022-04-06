@@ -18,6 +18,7 @@ public class HorseLoginPlugin extends JavaPlugin {
     PlotRepository plotRepository;
     ScoreRepository scoreRepository;
     HorseRepository horseRepository;
+    GamerStudRepository gamerStudRepository;
 
     GamerCommands gamerCommands;
 
@@ -33,9 +34,9 @@ public class HorseLoginPlugin extends JavaPlugin {
         horseRepository = new HorseRepository();
         gamerService = new GamerService(scoreRepository, gamerRepository);
         plotService = new PlotService(plotRepository);
-        horseService = new HorseService(horseRepository);
+        horseService = new HorseService(horseRepository,gamerStudRepository);
 
-        GamerCommands commands = new GamerCommands();
+        GamerCommands commands = new GamerCommands(horseService,gamerRepository);
 
         getCommand("tplobby").setExecutor(commands);
         getCommand("horsename").setExecutor(commands);

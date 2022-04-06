@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public class GamerRepository extends AbstractRepository {
 
+
+
     public Optional<Gamer> getGamerByNick(String nickname) {
         String sqlSelectAllPlots = "SELECT * FROM gamer WHERE nickname LIKE \"" + nickname + "\"";
         try (Connection conn = createConnection();

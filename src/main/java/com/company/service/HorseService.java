@@ -22,9 +22,14 @@ public class HorseService {
 
     private List<Horse> horses;
 
-    public HorseService(HorseRepository horseRepository) {
+    public HorseService(HorseRepository horseRepository, GamerStudRepository gamerStudRepository) {
         horses = new ArrayList<>();
         this.horseRepository = horseRepository;
+        this.gamerStudRepository = gamerStudRepository;
+    }
+
+    public HorseService() {
+
     }
 
     //TODO: stworzyc metode ktora tworzy konia

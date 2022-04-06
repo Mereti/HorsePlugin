@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
 
 public class GamerCommands implements CommandExecutor {
 
@@ -19,8 +18,15 @@ public class GamerCommands implements CommandExecutor {
     private HorseService horseService;
     private GamerRepository gamerRepository;
 
+    public GamerCommands(HorseService horseService, GamerRepository gamerRepository) {
+        this.horseService = horseService;
+        this.gamerRepository = gamerRepository;
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+
+
 
         if(!(sender instanceof Player)){ return true; }
         Player player = (Player) sender;
