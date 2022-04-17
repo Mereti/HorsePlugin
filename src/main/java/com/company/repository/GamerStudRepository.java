@@ -54,10 +54,10 @@ public class GamerStudRepository {
     public GamerStud saveGamerStud(GamerStud gamerStud){
         String sqlCreateSud = null;
         if(gamerStud.getGamerStudId() == null){
-            sqlCreateSud = "INSERT INTO gamer_stud (gamer_stud_id, gamer_id, name) VALUES (null,"+ gamerStud.getGamerId() + ", "+ gamerStud.getGamerStudName() +")";
+            sqlCreateSud = "INSERT INTO gamer_stud (gamer_stud_id,name, gamer_id) VALUES (null,"+ gamerStud.getName() + gamerStud.getGamerId()  +")";
 
         }else{
-            sqlCreateSud = "UPDATE gamer_stud SET name = " + gamerStud.getGamerStudName();
+            sqlCreateSud = "UPDATE gamer_stud SET name = " + gamerStud.getName();
         }
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlCreateSud);

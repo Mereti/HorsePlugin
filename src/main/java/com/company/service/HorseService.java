@@ -19,7 +19,6 @@ public class HorseService {
 
     private HorseRepository horseRepository;
     private GamerStudRepository gamerStudRepository;
-
     private List<Horse> horses;
 
     public HorseService(HorseRepository horseRepository, GamerStudRepository gamerStudRepository) {
@@ -28,40 +27,39 @@ public class HorseService {
         this.gamerStudRepository = gamerStudRepository;
     }
 
-    public HorseService() {
 
-    }
 
     //TODO: stworzyc metode ktora tworzy konia
     public  Horse createHorse(Gamer gamer, Location spawnLocation, String bukkitHorseId) {
         Random generator = new Random();
         Integer generateBreedNumber = 1; //generator.nextInt(StaticConfig.HORSE_NUMBER);
-        Optional<Breed> randomBreedHorse =  horseRepository.getBreedObject(generateBreedNumber);
-        Optional <GamerStud> stud = null;
+        Breed randomBreedHorse =  horseRepository.getBreedObject(generateBreedNumber).get();
+        GamerStud stud = null;
         if(gamerStudRepository.getStudByGamer(gamer).isPresent()){
-            stud = gamerStudRepository.getStudByGamer(gamer);
+            stud = gamerStudRepository.getStudByGamer(gamer).get();
         }else {
-            gamerStudRepository.saveGamerStud(new GamerStud(null, gamer.getGamerId(), "Stud name"));
-            stud = gamerStudRepository.getStudByGamer(gamer);
+
+            stud =  gamerStudRepository.saveGamerStud(new GamerStud(null, gamer.getGamerId(), "Stud name"));
+        /*gamerStudRepository.getStudByGamer(gamer).get();*/
         }
 
             Horse horse = new Horse(
                     null,
                     bukkitHorseId,
-                    stud.get(),
+                    stud,
                     "horse",
-                    randomBreedHorse.get(),
-                    randomBreedHorse.get().getFast(),
-                    randomBreedHorse.get().getHungry(),
-                    randomBreedHorse.get().getThirst(),
-                    randomBreedHorse.get().getAppearance(),
-                    randomBreedHorse.get().getValue());
+                    randomBreedHorse,
+                    randomBreedHorse.getFast(),
+                    randomBreedHorse.getHungry(),
+                    randomBreedHorse.getThirst(),
+                    randomBreedHorse.getAppearance(),
+                    randomBreedHorse.getValue());
 
             horse = horseRepository.saveHorse(horse);
             org.bukkit.entity.Horse horseBukkit = (org.bukkit.entity.Horse) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.HORSE);
 
 
-            // spawnLocation.getWorld().getLivingEntities().stream().filter(livingentity -> livingentity.getUniqueId() == horseBukkit.getUniqueId()).findAny();
+             spawnLocation.getWorld().getLivingEntities().stream().filter(livingentity -> livingentity.getUniqueId() == horseBukkit.getUniqueId()).findAny();
 
         return horse;
     }

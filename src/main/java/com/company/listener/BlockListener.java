@@ -9,6 +9,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPickupArrowEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import java.util.Optional;
 
@@ -74,4 +76,10 @@ public class BlockListener implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onPickUpItem(PlayerPickupItemEvent pickupItemEvent){
+        pickupItemEvent.setCancelled(false);
+    }
+    //TODO: sprawdzic dzialanie podnoszenia itemow
 }
