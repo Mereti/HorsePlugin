@@ -38,7 +38,6 @@ public class GamerCommands implements CommandExecutor {
         if(!(sender instanceof Player)){ return true; }
         Player player = (Player) sender;
 
-       // /tplobby
         if(cmd.getName().equalsIgnoreCase("tplobby")){
             if (player.getWorld()== Bukkit.getWorld("world_flat")){
                 player.teleport(Bukkit.getWorld("world").getSpawnLocation());
@@ -48,16 +47,13 @@ public class GamerCommands implements CommandExecutor {
         }
         else if(cmd.getName().equalsIgnoreCase("horsename")){
 
-            //player.sendMessage("OMG DZIALA TO?" + player.getName());
             if(player.getInventory().contains(Material.HORSE_SPAWN_EGG)){
                 player.sendMessage("Posiadasz jajko konia!");
                 if(args.length >= 1){
                     try{
                         EntityType horse = EntityType.HORSE;
-
                       //  player.getWorld().spawnEntity(player.getLocation(), EntityType.HORSE).setCustomName(String.valueOf(args[0]));
-
-                        AnimalTamer tamer = player;
+                       // AnimalTamer tamer = player;
                         org.bukkit.entity.Horse horseBukkit = (org.bukkit.entity.Horse) player.getWorld().spawnEntity(player.getLocation(), EntityType.HORSE);
                         horseBukkit.setCustomName(String.valueOf(args[0]));
                         String id = String.valueOf(horseBukkit.getUniqueId());

@@ -38,7 +38,6 @@ public class HorseService {
         if(gamerStudRepository.getStudByGamer(gamer).isPresent()){
             stud = gamerStudRepository.getStudByGamer(gamer).get();
         }else {
-
             stud =  gamerStudRepository.saveGamerStud(new GamerStud(null, gamer.getGamerId(), "Stud name"));
         /*gamerStudRepository.getStudByGamer(gamer).get();*/
         }
@@ -57,7 +56,6 @@ public class HorseService {
 
             horse = horseRepository.saveHorse(horse);
             org.bukkit.entity.Horse horseBukkit = (org.bukkit.entity.Horse) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.HORSE);
-
 
              spawnLocation.getWorld().getLivingEntities().stream().filter(livingentity -> livingentity.getUniqueId() == horseBukkit.getUniqueId()).findAny();
 
