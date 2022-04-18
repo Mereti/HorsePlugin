@@ -10,11 +10,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import java.util.List;
+
 public class HorseRacingListener implements Listener {
 
     private GamerService gamerService;
     private HorseService horseService;
-    private Location[] startBox;
     private final Location oneStratBox = new Location(Bukkit.getWorld("world"),119.212,73.85,-83.918);
     private final Location twoStartBox = new Location(Bukkit.getWorld("world"), 119.375,73.85,-81.004);
     private final Location threeStartBox = new Location(Bukkit.getWorld("world"), 119.362,73.85,-77.824);
@@ -25,17 +26,13 @@ public class HorseRacingListener implements Listener {
     public HorseRacingListener(GamerService gamerService, HorseService horseService, Location[] startBox) {
         this.gamerService = gamerService;
         this.horseService = horseService;
-        this.startBox = startBox;
     }
 
     @EventHandler
-    public void onHorseRacing(BlockPlaceEvent event, Player player){
-        startBox = new Location[3];
-        startBox[0] = oneStratBox;
-        startBox[1] = twoStartBox;
-        startBox[2] = threeStartBox;
+    public void onHorseRacing(BlockPlaceEvent event, List<Player> players){
 
-        if(startBox[0].getDirection().is)
+
+
 
 
     }

@@ -2,7 +2,8 @@ package com.company;
 
 import com.company.model.Breed;
 import com.company.model.GamerStud;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 public class Horse {
 

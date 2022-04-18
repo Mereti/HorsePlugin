@@ -68,8 +68,15 @@ public class HorseService {
         horses.addAll(horseRepository.getPlayerHorses(gamer));
     }
 
+    //TODO: to jest ok?
+
     public List<Horse> getGamerHorses(Gamer gamer) {
         return Collections.emptyList();
+    }
+
+    public Horse getHorseByGamerHorseName(Gamer gamer, String name){
+        int studId = gamerStudRepository.getStudByGamer(gamer).get().getGamerStudId();
+        return (Horse) horses.stream().filter(horse -> horse.getGamerStud().getGamerStudId().equals(studId)).filter(horse -> horse.getName().equals(name));
     }
 
 }

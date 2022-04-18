@@ -46,12 +46,13 @@ public class HorseLoginPlugin extends JavaPlugin {
 
         getCommand("tplobby").setExecutor(commands);
         getCommand("horsename").setExecutor(commands);
+        getCommand("racing").setExecutor(commands);
 
         getServer().getPluginManager().registerEvents(new JoinListener(gamerService, horseService), this);
         getServer().getPluginManager().registerEvents(new InteractListener(plotService,gamerService), this);
         getServer().getPluginManager().registerEvents(new BlockListener(gamerService, plotService), this);
          getServer().getPluginManager().registerEvents(new QuitListener(gamerService),this);
-         getServer().getPluginManager().registerEvents(new HorseListener(horseService,gamerService), this);
+         //getServer().getPluginManager().registerEvents(new HorseListener(horseService,gamerService), this);
          getServer().getPluginManager().registerEvents(new EggBlockListener(),this);
 
         //Mysql.displayAllGamers();
