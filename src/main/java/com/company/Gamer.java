@@ -4,6 +4,8 @@ public class Gamer {
     private int gamerId;
     private String nickname;
 
+
+
     public Gamer(int id, String nickname) {
         this.gamerId = id;
         this.nickname = nickname;

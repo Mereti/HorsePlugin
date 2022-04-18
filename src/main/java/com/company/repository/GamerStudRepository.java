@@ -42,7 +42,7 @@ public class GamerStudRepository {
              ResultSet rs = ps.executeQuery()) {
             Optional<GamerStud> gamerStudOptional = Optional.empty();
             if(rs.next()) {
-             gamerStudOptional = Optional.of(new GamerStud(rs.getInt("gamer_stud_id"),rs.getInt("gamer_id"), rs.getString("nickname")));
+             gamerStudOptional = Optional.of(new GamerStud(rs.getInt("gamer_stud_id"),rs.getInt("gamer_id"), rs.getString("name")));
             }
             return gamerStudOptional;
         } catch (SQLException throwables) {

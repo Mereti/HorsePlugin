@@ -14,7 +14,7 @@ public class GamerRepository extends AbstractRepository {
 
 
     public Optional<Gamer> getGamerByNick(String nickname) {
-        String sqlSelectAllPlots = "SELECT * FROM gamer WHERE nickname LIKE \"" + nickname + "\"";
+        String sqlSelectAllPlots = "SELECT * FROM gamer WHERE nickname = \"" + nickname + "\"";
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllPlots);
              ResultSet rs = ps.executeQuery()) {
