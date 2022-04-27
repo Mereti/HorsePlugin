@@ -1,6 +1,6 @@
 package com.company.listener;
 
-import com.company.Gamer;
+import com.company.model.Gamer;
 import com.company.service.GamerService;
 import com.company.service.PlotService;
 import org.bukkit.event.EventHandler;
@@ -9,7 +9,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerPickupArrowEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import java.util.Optional;

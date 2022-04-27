@@ -5,9 +5,9 @@ api-version: 1.16
 depend: [Multiverse-Core]
 commands:
   tplobby:
-    description: horsespawn?
+    description: tplobby?
     usage: /<command>
-    aliases: horsename
+    aliases: tplobby
 
   horsename:
     description: horsename?
@@ -18,4 +18,10 @@ commands:
     description: racing?
     usage: /<command>
     aliases: racing
+
+  studname:
+    description: studname?
+    usage: /<command>
+    aliases: studname
+
 

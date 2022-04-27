@@ -7,15 +7,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class EggBlockListener implements Listener {
 
-   /* private GamerService gamerService;
-
-    public EggBlockListener(GamerService gamerService) {
-        this.gamerService = gamerService;
-    }*/
-
+/*    getClickedInventory().contains(Material.HORSE_SPAWN_EGG*/
     public void onInteractEggs(InventoryClickEvent event){
-       if(event.getClickedInventory().contains(Material.HORSE_SPAWN_EGG)){
-           event.setCancelled(true);
+
+       if(event.getClick().isLeftClick()){
+           if(event.getCurrentItem().getType() == Material.HORSE_SPAWN_EGG){
+               event.setCancelled(true);
+           }
        }
 
    }

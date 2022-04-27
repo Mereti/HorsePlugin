@@ -1,7 +1,5 @@
 package com.company.model;
 
-import com.company.Gamer;
-
 public class GamerStud {
     private  Integer gamerStudId;
     private Integer gamerId;

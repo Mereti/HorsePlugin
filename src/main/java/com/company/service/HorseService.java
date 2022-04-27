@@ -1,15 +1,13 @@
 package com.company.service;
 
-import com.company.Gamer;
-import com.company.Horse;
+import com.company.model.Gamer;
+import com.company.model.Horse;
 import com.company.StaticConfig;
 import com.company.model.Breed;
 import com.company.model.GamerStud;
 import com.company.repository.GamerStudRepository;
 import com.company.repository.HorseRepository;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -28,25 +26,31 @@ public class HorseService {
     }
 
 
-
-    //TODO: stworzyc metode ktora tworzy konia
-    public  Horse createHorse(Gamer gamer, Location spawnLocation, String bukkitHorseId) {
+    public  Horse createHorse(Gamer gamer, Player player, String horseName) {
         Random generator = new Random();
-        Integer generateBreedNumber = 1; //generator.nextInt(StaticConfig.HORSE_NUMBER);
+        Integer generateBreedNumber = generator.nextInt(StaticConfig.HORSE_NUMBER);
         Breed randomBreedHorse =  horseRepository.getBreedObject(generateBreedNumber).get();
         GamerStud stud = null;
         if(gamerStudRepository.getStudByGamer(gamer).isPresent()){
             stud = gamerStudRepository.getStudByGamer(gamer).get();
         }else {
             stud =  gamerStudRepository.saveGamerStud(new GamerStud(null, gamer.getGamerId(), "Stud name"));
-        /*gamerStudRepository.getStudByGamer(gamer).get();*/
+            player.sendMessage("Twoja stadnina została stworzona: Stud name");
+            player.sendMessage("Jeśli chcesz zmienić jej nazwę użyj komendy: /studname <nazwa stadniny>");
         }
+
+        Location spawnLocation = player.getLocation();
+
+        org.bukkit.entity.Horse horseBukkit = (org.bukkit.entity.Horse) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.HORSE);
+        horseBukkit.setCustomName(horseName);
+        String bukkitHorseId = String.valueOf(horseBukkit.getUniqueId());
+        player.sendMessage("To jest unikalne ID twojego konia: " + bukkitHorseId );
 
             Horse horse = new Horse(
                     null,
                     bukkitHorseId,
                     stud,
-                    "horse",
+                    horseName,
                     randomBreedHorse,
                     randomBreedHorse.getFast(),
                     randomBreedHorse.getHungry(),
@@ -55,7 +59,6 @@ public class HorseService {
                     randomBreedHorse.getValue());
 
             horse = horseRepository.saveHorse(horse);
-            org.bukkit.entity.Horse horseBukkit = (org.bukkit.entity.Horse) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.HORSE);
 
              spawnLocation.getWorld().getLivingEntities().stream().filter(livingentity -> livingentity.getUniqueId() == horseBukkit.getUniqueId()).findAny();
 
@@ -72,9 +75,9 @@ public class HorseService {
         return Collections.emptyList();
     }
 
-    public Horse getHorseByGamerHorseName(Gamer gamer, String name){
-        int studId = gamerStudRepository.getStudByGamer(gamer).get().getGamerStudId();
-        return (Horse) horses.stream().filter(horse -> horse.getGamerStud().getGamerStudId().equals(studId)).filter(horse -> horse.getName().equals(name));
+    public Optional<Horse> getHorseByName(Gamer gamer, String name) {
+        return horses.stream().filter(horse -> horse.getName().equals(name) && horse.getGamerStud().getGamerId() == gamer.getGamerId()).findAny();
+
     }
 
 }

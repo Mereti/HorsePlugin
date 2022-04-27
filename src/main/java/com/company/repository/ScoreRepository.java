@@ -1,9 +1,8 @@
 package com.company.repository;
 
-import com.company.Gamer;
+import com.company.model.Gamer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ScoreRepository extends AbstractRepository {

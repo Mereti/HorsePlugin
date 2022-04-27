@@ -1,11 +1,10 @@
 package com.company.service;
 
-import com.company.Gamer;
-import com.company.Plot;
+import com.company.model.Gamer;
+import com.company.model.Plot;
 import com.company.repository.PlotRepository;
 import org.bukkit.Location;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

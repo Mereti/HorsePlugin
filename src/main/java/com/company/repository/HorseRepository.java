@@ -1,15 +1,12 @@
 package com.company.repository;
 
-import com.company.Gamer;
-import com.company.Horse;
+import com.company.model.Gamer;
+import com.company.model.Horse;
 import com.company.model.Breed;
 import com.company.model.GamerStud;
 import com.company.model.HorseBreed;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 import static com.company.repository.AbstractRepository.createConnection;
@@ -21,21 +18,20 @@ public class HorseRepository{
         String sqlSelectAllGamerHorse = "SELECT * FROM horse " +
                 "INNER JOIN gamer_stud ON horse.gamer_stud_id = gamer_stud.gamer_stud_id " +
                 "INNER JOIN gamer ON gamer_stud.gamer_id = gamer.gamer_id " +
-                "INNER JOIN breed ON horse.breed_id = breed.breed_id" +
-                "WHERE gamer_id = " + gamer.getGamerId();
+                "INNER JOIN breed ON horse.breed_id = breed.breed_id " +
+                "WHERE gamer.gamer_id = " + gamer.getGamerId();
         List<Horse> gamerHorses = new ArrayList<>();
 
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllGamerHorse);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), gamer.getGamerId(), rs.getString("name"));
-                //TODO zrobic cos z tym getem
-                Optional<Breed> breedOptional = getBreedObject(rs.getInt("breed"));
+                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), gamer.getGamerId(), rs.getString("stud_name"));
+                Optional<Breed> breedOptional = getBreedObject(rs.getInt("breed.breed_id"));
 
                 if(breedOptional.isPresent()) {
                     Breed breed = breedOptional.get();
-                    Horse horse = new Horse(rs.getInt("id"),rs.getString("bukkit_horse_id"), gamerStud, rs.getString("name"), breed, rs.getDouble("speed"), rs.getDouble("hungry"), rs.getDouble("thirst"), rs.getDouble("appearance"), rs.getDouble("value"));
+                    Horse horse = new Horse(rs.getInt("horse.horse_id"),rs.getString("bukkit_horse_id"), gamerStud, rs.getString("horse.name"), breed, rs.getDouble("fast"), rs.getDouble("hungry"), rs.getDouble("thirst"), rs.getDouble("appearance"), rs.getDouble("value"));
                     gamerHorses.add(horse);
                 }
             }
@@ -50,25 +46,26 @@ public class HorseRepository{
 
         String sql = null;
 
-
-
         if(horse.getHorseId() == null ){
-            sql = "INSERT INTO horse (horse_id, bukkit_horse_id, gamer_stud, name, breed, fast, hungry, thirst, appearance, value) " +
-                    "VALUES (null," + horse.getBukkitHorseId() + horse.getGamerStud().getGamerStudId()+ "," + horse.getName() + ","
+            sql = "INSERT INTO horse (horse_id, bukkit_horse_id, gamer_stud_id, name, breed_id, fast, hungry, thirst, appearance, value) " +
+                    "VALUES (null,'" + horse.getBukkitHorseId() + "', " + horse.getGamerStud().getGamerStudId() + ", '" + horse.getName() + "',"
                     + horse.getBreed().getBreedId() + "," + horse.getFast() + "," + horse.getHungry()
                     + "," + horse.getThirst() + "," + horse.getAppearance() + "," + horse.getValue() +")";
 
             try (Connection conn = createConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql);
-                 ResultSet rs = ps.executeQuery()) {
-                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        horse.setHorseId(generatedKeys.getInt(1));
+                Statement ps =  conn.createStatement();)
+                 {
+                    ps.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
+                    try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+
+                        if (generatedKeys.next()) {
+                            horse.setHorseId(generatedKeys.getInt(1));
+                        }
+                        else {
+                            throw new SQLException("Creating user failed, no ID obtained.");
+                        }
+
                     }
-                    else {
-                        throw new SQLException("Creating user failed, no ID obtained.");
-                    }
-                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }

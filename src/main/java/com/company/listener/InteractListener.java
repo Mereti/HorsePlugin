@@ -1,11 +1,9 @@
 package com.company.listener;
 
-import com.company.Plot;
+import com.company.model.Plot;
 import com.company.StaticConfig;
 import com.company.service.GamerService;
 import com.company.service.PlotService;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
