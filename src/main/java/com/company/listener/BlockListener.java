@@ -57,6 +57,8 @@ public class BlockListener implements Listener {
         if(interactEvent.getClickedBlock() == null)
             return;
         if(interactEvent.getPlayer().getLocation().getWorld().getName().equals("world")){
+            //TODO: zropbic interactEvent.getBlock().getLocation() sprawdizic z zapisanaymi wartosciami jesli sie zgadza to nie blokowac eventu
+
             if(interactEvent.getAction() == Action.RIGHT_CLICK_BLOCK && interactEvent.getClickedBlock().getType().name().endsWith("_DOOR")){
                 interactEvent.setCancelled(false);
             } else {

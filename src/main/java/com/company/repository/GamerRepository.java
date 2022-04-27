@@ -7,10 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-
-
 public class GamerRepository extends AbstractRepository {
-
 
     public Optional<Gamer> getGamerByNick(String nickname) {
         String sqlSelectAllPlots = "SELECT * FROM gamer WHERE nickname = \"" + nickname + "\"";
