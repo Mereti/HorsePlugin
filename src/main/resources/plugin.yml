@@ -24,4 +24,9 @@ commands:
     usage: /<command>
     aliases: studname
 
+  stopracing:
+    description: stopracing?
+    usage: /<command>
+    aliases: stopracing
+
 

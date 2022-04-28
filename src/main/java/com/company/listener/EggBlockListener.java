@@ -14,6 +14,12 @@ public class EggBlockListener implements Listener {
            if(event.getCurrentItem().getType() == Material.HORSE_SPAWN_EGG){
                event.setCancelled(true);
            }
+           if(event.getCurrentItem().getType() == Material.ZOMBIE_HORSE_SPAWN_EGG){
+               event.setCancelled(true);
+           }
+           if(event.getCurrentItem().getType() == Material.SKELETON_HORSE_SPAWN_EGG){
+               event.setCancelled(true);
+           }
        }
 
    }

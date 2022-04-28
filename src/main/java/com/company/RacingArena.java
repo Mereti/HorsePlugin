@@ -76,7 +76,7 @@ public class RacingArena {
     }
 
     public boolean canStart() {
-        return spawnPoints.stream().filter(SpawnPoint::isClaimed).count() >= 1 && arenaStatus == ArenaStatus.WAITING;
+        return spawnPoints.stream().filter(SpawnPoint::isClaimed).count() >= 2 && arenaStatus == ArenaStatus.WAITING;
     }
 
     public boolean canJoin() {
@@ -106,6 +106,13 @@ public class RacingArena {
                 player.sendTitle(ChatColor.YELLOW.toString() + "Zwyciestowo", ChatColor.YELLOW.toString() + winner.getName(), 10, 50, 10);
             }
         });
+
+        arenaStatus = ArenaStatus.WAITING;
+        time = -20;
+        buildFences();
+        spawnPoints.forEach(SpawnPoint::free);
+    }
+    public void outOfArena(Player player, Horse horse){
 
         arenaStatus = ArenaStatus.WAITING;
         time = -20;
@@ -189,7 +196,5 @@ public class RacingArena {
             }
         }
     }
-
-
 
 }

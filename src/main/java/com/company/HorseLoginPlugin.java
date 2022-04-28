@@ -51,12 +51,13 @@ public class HorseLoginPlugin extends JavaPlugin {
         racingArena = new RacingArena(gamerService, plotService);
         getServer().getScheduler().runTaskTimer(this, new RacingArenaRunnable(racingArena), 20, 20);
 
-        GamerCommands commands = new GamerCommands(racingArena, horseService, gamerService, gamerStudRepository);
+        GamerCommands commands = new GamerCommands(racingArena, horseService, gamerService, gamerStudRepository, plotService);
 
         getCommand("tplobby").setExecutor(commands);
         getCommand("horsename").setExecutor(commands);
         getCommand("racing").setExecutor(commands);
         getCommand("studname").setExecutor(commands);
+        getCommand("stopracing").setExecutor(commands);
 
 
         getServer().getPluginManager().registerEvents(new JoinListener(gamerService, horseService,authmeService), this);
@@ -66,6 +67,8 @@ public class HorseLoginPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EggBlockListener(),this);
         getServer().getPluginManager().registerEvents(new CreativeGetItemListener(),this);
         getServer().getPluginManager().registerEvents(new HorseRacingListener(racingArena), this);
+        getServer().getPluginManager().registerEvents(new HorseListener(horseService,gamerService), this);
+
 
 
         Bukkit.getWorld("world_flat").setMonsterSpawnLimit(0);

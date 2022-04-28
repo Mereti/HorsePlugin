@@ -4,9 +4,11 @@ import com.company.RacingArena;
 import com.company.model.Gamer;
 import com.company.model.GamerStud;
 import com.company.model.Horse;
+import com.company.model.Plot;
 import com.company.repository.GamerStudRepository;
 import com.company.service.GamerService;
 import com.company.service.HorseService;
+import com.company.service.PlotService;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -24,15 +26,17 @@ public class GamerCommands implements CommandExecutor {
 
     private HorseService horseService;
     private GamerService gamerService;
+    private PlotService plotService;
     private GamerStudRepository gamerStudRepository;
-
     private RacingArena racingArena;
 
-    public GamerCommands(RacingArena racingArena, HorseService horseService, GamerService gamerService, GamerStudRepository gamerStudRepository) {
+
+    public GamerCommands(RacingArena racingArena, HorseService horseService, GamerService gamerService, GamerStudRepository gamerStudRepository, PlotService plotService) {
         this.gamerService = gamerService;
         this.racingArena = racingArena;
         this.horseService =  horseService;
         this.gamerStudRepository = gamerStudRepository;
+        this.plotService = plotService;
     }
 
     @Override
@@ -105,6 +109,13 @@ public class GamerCommands implements CommandExecutor {
             } else {
                 player.sendMessage("Obecnie trwa wyscig, sprobuj pozniej");
             }
+        }else if(cmd.getName().equalsIgnoreCase("stopracing")){
+            String horseName = args[0];
+            Gamer gamer = gamerService.getGamer(player.getName()).get();
+            Plot plot = plotService.getPlotOwnedByGamer(gamer).get();
+            Optional<Horse> horse = horseService.getHorseByName(gamer, horseName);
+            org.bukkit.entity.Horse bukkitHorse = (org.bukkit.entity.Horse) Bukkit.getEntity(UUID.fromString(horse.get().getBukkitHorseId()));
+           racingArena.outOfArena(player,bukkitHorse);
         }
         return true;
     }
