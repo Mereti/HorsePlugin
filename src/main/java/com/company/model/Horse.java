@@ -7,16 +7,14 @@ import java.util.UUID;
 
 public class Horse {
 
-    //TODO: stworzyc konstruktor, metody get i set, rozwiaza problem z breed i gamerStud
-
     private Integer horseId;
     private String bukkitHorseId;
     private GamerStud gamerStud;
-    private String name; // imie konia
-    private Breed breed; // rasa konia
-    private double fast; // szybkość konia
-    private double hungry; // głód konia
-    private double thirst; // pragnienie konia
+    private String name;
+    private Breed breed;
+    private double fast;
+    private double hungry;
+    private double thirst;
     private double appearance;
     private double value;
 

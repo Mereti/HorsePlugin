@@ -69,8 +69,6 @@ public class HorseService {
         horses.addAll(horseRepository.getPlayerHorses(gamer));
     }
 
-    //TODO: to jest ok?
-
     public List<Horse> getGamerHorses(Gamer gamer) {
         return Collections.emptyList();
     }

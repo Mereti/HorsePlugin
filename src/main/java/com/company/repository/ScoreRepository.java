@@ -12,8 +12,6 @@ public class ScoreRepository extends AbstractRepository {
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectGamer);)
         {
-           //int resultSet = ps.executeUpdate();
-
             ps.execute();
 
     } catch (SQLException throwables) {

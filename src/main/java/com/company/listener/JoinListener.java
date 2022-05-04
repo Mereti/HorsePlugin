@@ -47,7 +47,7 @@ public class JoinListener implements Listener {
         player.getInventory().clear();
         player.setHealthScale(20D);
         player.setInvulnerable(true);
-        player.setCanPickupItems(false);
+        player.setCanPickupItems(true);
         player.getInventory().setItem(0, compass);
         createHelpBook(player);
         Gamer gamer = gamerService.loadGamer(player.getName());

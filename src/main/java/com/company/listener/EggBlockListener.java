@@ -7,7 +7,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class EggBlockListener implements Listener {
 
-/*    getClickedInventory().contains(Material.HORSE_SPAWN_EGG*/
     public void onInteractEggs(InventoryClickEvent event){
 
        if(event.getClick().isLeftClick()){
