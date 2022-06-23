@@ -1,15 +1,15 @@
 package com.company.listener;
 
-import com.company.Plot;
+import com.company.model.Plot;
 import com.company.StaticConfig;
 import com.company.service.GamerService;
 import com.company.service.PlotService;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Optional;
@@ -39,6 +39,8 @@ public class InteractListener implements Listener {
                     Optional<Plot> givenPlot = plotService.givePlot(gamer);
                     if (givenPlot.isPresent()) {
                         player.teleport(givenPlot.get().getMainPoint());
+                        player.getInventory().setItem(3, new ItemStack(Material.HORSE_SPAWN_EGG));
+                        player.getInventory().setItem(2, new ItemStack(Material.SADDLE));
                         player.sendMessage("Otrzymales dzialke");
                     } else {
                         player.sendMessage("Nie ma wolnych dzialek skontaktuj sie z administratorem");

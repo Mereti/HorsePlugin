@@ -1,8 +1,6 @@
 package com.company.repository;
 
-import com.company.Gamer;
-import com.company.Horse;
-import com.company.model.Breed;
+import com.company.model.Gamer;
 import com.company.model.GamerStud;
 
 import java.sql.Connection;
@@ -25,7 +23,7 @@ public class GamerStudRepository {
              PreparedStatement ps = conn.prepareStatement(sqlSelectAllStuds);
              ResultSet rs = ps.executeQuery()) {
             while(rs.next()) {
-                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), rs.getInt("gamer_id"), rs.getString("gamer_stud_name"));
+                GamerStud gamerStud = new GamerStud(rs.getInt("gamer_stud_id"), rs.getInt("gamer_id"), rs.getString("stud_name"));
                 studList.add(gamerStud.getGamerStudId(),gamerStud);
             }
             return studList;
@@ -42,7 +40,7 @@ public class GamerStudRepository {
              ResultSet rs = ps.executeQuery()) {
             Optional<GamerStud> gamerStudOptional = Optional.empty();
             if(rs.next()) {
-             gamerStudOptional = Optional.of(new GamerStud(rs.getInt("gamer_stud_id"),rs.getInt("gamer_id"), rs.getString("nickname")));
+             gamerStudOptional = Optional.of(new GamerStud(rs.getInt("gamer_stud_id"),rs.getInt("gamer_id"), rs.getString("stud_name")));
             }
             return gamerStudOptional;
         } catch (SQLException throwables) {
@@ -54,25 +52,35 @@ public class GamerStudRepository {
     public GamerStud saveGamerStud(GamerStud gamerStud){
         String sqlCreateSud = null;
         if(gamerStud.getGamerStudId() == null){
-            sqlCreateSud = "INSERT INTO gamer_stud (gamer_stud_id, gamer_id, gamer_stud_name) VALUES (null,"+ gamerStud.getGamerId() + ", "+ gamerStud.getGamerStudName() +")";
+            sqlCreateSud = "INSERT INTO gamer_stud (gamer_stud_id, stud_name, gamer_id) VALUES (null,"+ gamerStud.getName()
+                    + gamerStud.getGamerId()  +")" ;
+            try (Connection conn = createConnection();
+                 PreparedStatement ps = conn.prepareStatement(sqlCreateSud);
+                 ResultSet rs = ps.executeQuery()) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        //gamerStud.setGamerStudId(generatedKeys.getInt());
+                    }
+                    else {
+                        throw new SQLException("Creating user failed, no ID obtained.");
+                    }
+                }
+            } catch (SQLException e) {
+                // handle the exception
+                e.printStackTrace();
+            }
 
         }else{
-            sqlCreateSud = "UPDATE gamer_stud SET gamer_stud_name = " + gamerStud.getGamerStudName();
-        }
-        try (Connection conn = createConnection();
-             PreparedStatement ps = conn.prepareStatement(sqlCreateSud);
-             ResultSet rs = ps.executeQuery()) {
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    gamerStud.setGamerStudId(generatedKeys.getInt(1));
-                }
-                else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
-                }
+            sqlCreateSud = "UPDATE gamer_stud SET stud_name = \" "+ gamerStud.getName() + " \" WHERE gamer_id = " + gamerStud.getGamerId();
+            try (Connection conn = createConnection();
+                 PreparedStatement ps = conn.prepareStatement(sqlCreateSud);
+            ){
+                boolean rs = ps.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            // handle the exception
         }
+
         return gamerStud;
     }
 

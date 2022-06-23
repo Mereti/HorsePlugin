@@ -1,16 +1,14 @@
 package com.company.model;
 
-import com.company.Gamer;
-
 public class GamerStud {
     private  Integer gamerStudId;
     private Integer gamerId;
-    private String gamerStudName;
+    private String name;
 
-    public GamerStud(Integer gamerStudId, Integer gamerId, String gamerStudName) {
+    public GamerStud(Integer gamerStudId, Integer gamerId, String name) {
         this.gamerStudId = gamerStudId;
         this.gamerId = gamerId;
-        this.gamerStudName = gamerStudName;
+        this.name = name;
     }
 
     public Integer getGamerStudId() {
@@ -29,11 +27,11 @@ public class GamerStud {
         this.gamerId = gamerId;
     }
 
-    public String getGamerStudName() {
-        return gamerStudName;
+    public String getName() {
+        return name;
     }
 
-    public void setGamerStudName(String gamerStudName) {
-        this.gamerStudName = gamerStudName;
+    public void setName(String name) {
+        this.name = name;
     }
 }
