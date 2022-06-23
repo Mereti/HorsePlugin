@@ -3,30 +3,3 @@ main: com.company.HorseLoginPlugin
 version: 1.0
 api-version: 1.16
 depend: [Multiverse-Core]
-commands:
-  tplobby:
-    description: tplobby?
-    usage: /<command>
-    aliases: tplobby
-
-  horsename:
-    description: horsename?
-    usage: /<command>
-    aliases: horsename
-
-  racing:
-    description: racing?
-    usage: /<command>
-    aliases: racing
-
-  studname:
-    description: studname?
-    usage: /<command>
-    aliases: studname
-
-  stopracing:
-    description: stopracing?
-    usage: /<command>
-    aliases: stopracing
-
-

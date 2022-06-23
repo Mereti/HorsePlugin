@@ -1,6 +1,6 @@
 package com.company.service;
 
-import com.company.model.Gamer;
+import com.company.Gamer;
 import com.company.repository.GamerRepository;
 import com.company.repository.ScoreRepository;
 

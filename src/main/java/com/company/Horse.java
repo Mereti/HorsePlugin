@@ -1,28 +1,32 @@
-package com.company.model;
+package com.company;
 
 import com.company.model.Breed;
 import com.company.model.GamerStud;
 
-import java.util.UUID;
+public class Horse{
 
-public class Horse {
+    //TODO: stworzyc konstruktor, metody get i set, rozwiaza problem z breed i gamerStud
 
     private Integer horseId;
-    private String bukkitHorseId;
     private GamerStud gamerStud;
-    private String name;
-    private Breed breed;
-    private double fast;
-    private double hungry;
-    private double thirst;
+    private String name; // imie konia
+    private Breed breed; // rasa konia
+    private double fast; // szybkość konia
+    private double hungry; // głód konia
+    private double thirst; // pragnienie konia
     private double appearance;
     private double value;
 
-    public Horse(Integer horseId, String bukkitHorseId, GamerStud gamerStud, String name,
+    /*{
+        org.bukkit.entity.Horse horse = null;
+        horse.setJumpStrength();
+        horse.setJumpStrength();
+    }*/
+
+    public Horse(Integer horseId, GamerStud gamerStud, String name,
                  Breed breed, double fast, double hungry, double thirst,
                  double appearance, double value) {
         this.horseId = horseId;
-        this.bukkitHorseId = bukkitHorseId;
         this.gamerStud = gamerStud;
         this.name = name;
         this.breed = breed;
@@ -39,14 +43,6 @@ public class Horse {
 
     public void setHorseId(Integer horseId) {
         this.horseId = horseId;
-    }
-
-    public String getBukkitHorseId() {
-        return bukkitHorseId;
-    }
-
-    public void setBukkitHorseId(String bukkitHorseId) {
-        this.bukkitHorseId = bukkitHorseId;
     }
 
     public GamerStud getGamerStud() {
@@ -112,6 +108,4 @@ public class Horse {
     public void setValue(double value) {
         this.value = value;
     }
-
-
 }

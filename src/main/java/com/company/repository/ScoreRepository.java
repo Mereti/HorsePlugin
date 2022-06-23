@@ -1,8 +1,9 @@
 package com.company.repository;
 
-import com.company.model.Gamer;
+import com.company.Gamer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ScoreRepository extends AbstractRepository {
@@ -12,6 +13,8 @@ public class ScoreRepository extends AbstractRepository {
         try (Connection conn = createConnection();
              PreparedStatement ps = conn.prepareStatement(sqlSelectGamer);)
         {
+           //int resultSet = ps.executeUpdate();
+
             ps.execute();
 
     } catch (SQLException throwables) {

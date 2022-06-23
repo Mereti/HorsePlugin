@@ -1,6 +1,6 @@
 package com.company.repository;
 
-import com.company.model.Plot;
+import com.company.Plot;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -50,6 +50,5 @@ public class PlotRepository extends AbstractRepository {
             // handle the exception
         }
     }
-
 
 }
